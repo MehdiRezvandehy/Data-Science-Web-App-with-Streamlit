@@ -2,6 +2,10 @@ import pickle
 import streamlit as st
 import numpy as np
 
+st.title('Churn Classifier')
+st.write(
+    """This app uses 10 inputs to predict likelihood of churn for a customer!"""
+)
 
 rf_pickle = open("random_forest_churn.pickle", "rb")
 rfc = pickle.load(rf_pickle)
