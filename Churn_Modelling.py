@@ -3,6 +3,11 @@ import streamlit as st
 import numpy as np
 
 st.title('Customer Churn Prediction')
+
+password_guess = st.text_input('What is the Password?') 
+if password_guess != st.secrets["password"]: 
+    st.stop()
+
 st.write(
     """This app is created by [streamlit](https://streamlit.io/) to predict the likelihood if bank 
     customers will turnover next cycle. Random forest classifier is trained by Bank Turnover Dataset from 
