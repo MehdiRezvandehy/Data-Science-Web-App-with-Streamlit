@@ -4,6 +4,52 @@ import numpy as np
 
 st.title('Customer Churn Prediction')
 
+# Typing effect that stops at the author's name length and repeats from the beginning
+st.markdown(
+    """
+    <style>
+        .author-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #007acc; /* Color for "Author:" */
+            white-space: nowrap;
+            vertical-align: middle; /* Ensures alignment with animated text */
+        }
+    
+        .author-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: red; /* Color for the author's name */
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid;
+            display: inline-block;
+            vertical-align: middle; /* Aligns with the static "Author:" text */
+            animation: typing 5s steps(20, end) infinite, blink-caret 0.75s step-end infinite;
+            max-width: 10ch; /* Limit width to fit text length */
+        }
+    
+        /* Typing effect */
+        @keyframes typing {
+            0% { max-width: 0; }
+            50% { max-width: 30ch; } /* Adjust to match the name's length */
+            100% { max-width: 0; } /* Reset back to zero */
+        }
+    
+        /* Blinking cursor animation for the author's name */
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: red; }
+        }
+    </style>
+    
+    <p><span class="author-title">Author:</span> <span class="author-name">Mehdi Rezvandehy</span></p>
+
+    """,
+    unsafe_allow_html=True
+)
+st.write("""""")
+
 st.write(
     """This app is created by [streamlit](https://streamlit.io/) to predict the likelihood if bank 
     customers will turnover next cycle. Random forest classifier is trained by Bank Turnover Dataset from 
