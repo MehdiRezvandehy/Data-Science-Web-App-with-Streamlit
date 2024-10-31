@@ -6,3 +6,4 @@ scikit-learn
 scipy
 shap
 streamlit_pandas_profiling
+pandas-profiling
