@@ -16,6 +16,7 @@ from matplotlib.ticker import PercentFormatter
 st.title('Train Random Forest for Customer Churn Prediction')
 
 # Typing effect that stops at the author's name length and repeats from the beginning
+<!--
 st.markdown(
     """
     <style>
@@ -59,7 +60,8 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
+-->
+st.write("""Author: **Mehdi Rezvandehy**""")
 st.write("""""")
 
 st.write(
