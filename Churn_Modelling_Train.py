@@ -9,6 +9,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import shap
+from pandas_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 from matplotlib.ticker import PercentFormatter
 
@@ -94,7 +95,7 @@ if churn_file is not None:
     np.random.seed(42) 
     df
     if st.button("profiling", type="primary"):
-        profile = df.profile_report(title='Pandas Profiling Report')
+        profile = ProfileReport(df, title='Pandas Profiling Report')
         st_profile_report(profile)
     
     df = df.reindex(np.random.permutation(df.index))
