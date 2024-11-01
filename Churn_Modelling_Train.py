@@ -10,7 +10,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import shap
 from streamlit_pandas_profiling import st_profile_report
-from pandas_profiling import ProfileReport
 from matplotlib.ticker import PercentFormatter
 
 
