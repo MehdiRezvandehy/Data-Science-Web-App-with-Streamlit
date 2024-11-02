@@ -11,9 +11,10 @@ from sklearn.preprocessing import OrdinalEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
-import shap
-from pandas_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
+#from pydantic_settings import BaseSettings
+from pandas_profiling import ProfileReport
+import shap
 from matplotlib.ticker import PercentFormatter
 
 
