@@ -1,3 +1,6 @@
+#pip install -r requirements.txt --ignore-installed
+#pip freeze > requirements.txt
+#for /F %i in (requirements.txt) do pip uninstall -y %i
 import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
