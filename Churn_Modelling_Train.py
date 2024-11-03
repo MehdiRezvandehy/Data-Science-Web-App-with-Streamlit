@@ -22,61 +22,75 @@ st.title('Train Random Forest for Customer Churn Prediction')
 
 # Typing effect that stops at the author's name length and repeats from the beginning
 
-#st.markdown(
-#    """
-#    <style>
-#        .author-title {
-#            font-size: 1.3em;
-#            font-weight: bold;
-#            color: #007acc; /* Color for "Author:" */
-#            white-space: nowrap;
-#            vertical-align: middle; /* Ensures alignment with animated text */
-#        }
-#    
-#        .author-name {
-#            font-size: 1.2em;
-#            font-weight: bold;
-#            color: red; /* Color for the author's name */
-#            overflow: hidden;
-#            white-space: nowrap;
-#            border-right: 3px solid;
-#            display: inline-block;
-#            vertical-align: middle; /* Aligns with the static "Author:" text */
-#            animation: typing 5s steps(20, end) infinite, blink-caret 0.75s step-end infinite;
-#            max-width: 10ch; /* Limit width to fit text length */
-#        }
-#    
-#        /* Typing effect */
-#        @keyframes typing {
-#            0% { max-width: 0; }
-#            50% { max-width: 30ch; } /* Adjust to match the name's length */
-#            100% { max-width: 0; } /* Reset back to zero */
-#        }
-#    
-#        /* Blinking cursor animation for the author's name */
-#        @keyframes blink-caret {
-#            from, to { border-color: transparent; }
-#            50% { border-color: red; }
-#        }
-#    </style>
-#    
-#    <p><span class="author-title">Author:</span> <span class="author-name">Mehdi Rezvandehy</span></p>
-#
-#    """,
-#    unsafe_allow_html=True
-#)
+st.markdown(
+    """
+    <style>
+        .author-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #007acc; /* Color for "Author:" */
+            white-space: nowrap;
+            vertical-align: middle; /* Ensures alignment with animated text */
+        }
+    
+        .author-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: red; /* Color for the author's name */
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid;
+            display: inline-block;
+            vertical-align: middle; /* Aligns with the static "Author:" text */
+            animation: typing 5s steps(20, end) infinite, blink-caret 0.75s step-end infinite;
+            max-width: 10ch; /* Limit width to fit text length */
+        }
+    
+        /* Typing effect */
+        @keyframes typing {
+            0% { max-width: 0; }
+            50% { max-width: 30ch; } /* Adjust to match the name's length */
+            100% { max-width: 0; } /* Reset back to zero */
+        }
+    
+        /* Blinking cursor animation for the author's name */
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: red; }
+        }
+    </style>
+    
+    <p><span class="author-title">Author:</span> <span class="author-name">Mehdi Rezvandehy</span></p>
 
-st.write("""Author: **Mehdi Rezvandehy**""")
-st.write("""""")
-
-st.write(
-    """This app is created by [streamlit](https://streamlit.io/) to train a model to predict 
-    customer turnover for next cycle. Random forest classifier is trained by Bank Turnover Dataset from 
-    [Kaggle](https://www.kaggle.com/barelydedicated/bank-customer-churn-modeling/version/1).
-     The app is trained by 10 inputs (predictors). The user inputs are `Geography`, `CreditScore`, 
-     `Gender`, `Age`, `Tenure`, `Balance`, `NumOfProducts`, `HasCrCard`, `IsActiveMember`, `EstimatedSalary`"""
+    """,
+    unsafe_allow_html=True
 )
-st.image('DataTable.jpg')
+
+#st.write("""Author: **Mehdi Rezvandehy**""")
+st.write("""""")
+session_state = True
+
+st.markdown(
+    """
+    This app, built with [Streamlit](https://streamlit.io/), trains a Random Forest classifier to predict the probability 
+    of customer turnover for the upcoming cycle. It uses the Bank Turnover Dataset from 
+    [Kaggle](https://www.kaggle.com/barelydedicated/bank-customer-churn-modeling/version/1), which is preloaded into the app. 
+    With this tool, you can:
+
+    * Perform data profiling for processing
+    * Choose input features
+    * Split the data into training and test sets
+    * Train a reliable Random Forest model by tuning hyperparameters
+    * Analyze feature importance using SHAP and Random Forest methods
+
+
+    Here is the data:
+    """
+)
+
+st.markdown(""" """)
+
+#st.image('DataTable.jpg')
 
 #with st.form('input'):
 #    churn_file = st.file_uploader('Upload your churn data')
@@ -92,6 +106,7 @@ st.image('DataTable.jpg')
 #    std_pickle.close()
 #
 #else:
+
 churn_file = 'Churn_Modelling.csv'
 if churn_file is not None:
     df = pd.read_csv(churn_file)
@@ -128,11 +143,11 @@ if churn_file is not None:
     selected_features_test = selected_features.copy()
  
     st.subheader("RandomForest Hyperparameters")
-    n_estimators = st.number_input("n_estimators", min_value=10, max_value=200)
+    n_estimators = st.number_input("n_estimators", min_value=20, max_value=200)
     max_depth = st.number_input("max_depth", min_value=5, max_value=30)
     min_samples_split = st.number_input("min_samples_split", min_value=5, max_value=30)
     bootstrap = st.selectbox("bootstrap", options=[True, False])
-    random_state = st.number_input("random_state", min_value=1)
+    random_state = st.number_input("random_state", min_value=1, value=32)
  
     # Random Forest for taining set
     if st.button("Train Random Forest", type="primary"):
@@ -145,6 +160,7 @@ if churn_file is not None:
             clmn.append('Gender')
             train_set_strat['Gender'] = ordinal_encoder.fit_transform(train_set_strat[['Gender']])
         
+        st.session_state.selected_features_pred = selected_features.copy()
         # Remove 'Geography'
         if 'Geography' in selected_features:
             Geog_1hot = pd.get_dummies(train_set_strat['Geography'],prefix='Is')
@@ -155,7 +171,7 @@ if churn_file is not None:
             
         if 'NumOfProducts' in selected_features:
             clmn.append('NumOfProducts')       
-            
+
         if 'HasCrCard' in selected_features:
             clmn.append('HasCrCard') 
         
@@ -182,13 +198,15 @@ if churn_file is not None:
         #
         scaler = StandardScaler()
         scaler.fit(X_train_for_std)
+        st.session_state.scaler_st = scaler
         #
         df_train_std = scaler.transform(X_train_for_std)
         X_train_std = np.concatenate((df_train_std, X_train_not_std), axis=1)
 
         # Initialize the progress bar
         progress_bar = st.progress(0)
-        progress_step = 100 / 3  # Assuming 3 main steps in your process        
+        progress_step = 100 / 3  # Assuming 3 main steps in your process
+        st.session_state.training_completed = True     
   
         rnd = RandomForestClassifier(n_estimators=n_estimators, max_depth= max_depth, 
                                      min_samples_split= 20, bootstrap= bootstrap, 
@@ -253,6 +271,7 @@ if churn_file is not None:
         st.pyplot(fig)
         # Complete the progress bar
         progress_bar.progress(100)
+        st.session_state.training_completed = True
 
 
     # Apply feature importance with Random Forest
@@ -346,3 +365,75 @@ if churn_file is not None:
                     
         st.pyplot(fig)
 
+    st.header("Prediction")
+    
+    if st.session_state:
+       user_inputs = []
+       selected_features_con = []
+       st.subheader("Input Data")
+       if 'Geography' in st.session_state.selected_features_pred:
+           Geography = st.selectbox("Geography", options=["France", "Germany", "Spain"])
+           Is_France, Is_Germany, Is_Spain = 0, 0, 0
+           if Geography == 'France':
+               Is_France = 1
+           elif Geography == 'Germany':
+               Is_Germany = 1
+           elif Geography == 'Spain':
+               Is_Spain = 1
+           user_inputs.append(Is_France)
+           user_inputs.append(Is_Germany)
+           user_inputs.append(Is_Spain)
+   
+           #
+       if 'CreditScore' in st.session_state.selected_features_pred:
+           CreditScore = st.number_input("CreditScore", min_value=300)
+           selected_features_con.append(CreditScore)
+           #
+       if 'Gender' in st.session_state.selected_features_pred:
+           Gender = st.selectbox("Gender", options=['Male', 'Female'])
+           if Gender == 'Male':
+               Gender = 1
+           elif Gender == 'Female':
+               Gender = 0
+           user_inputs.append(Gender)
+           #
+       if 'Age' in st.session_state.selected_features_pred:
+           Age = st.number_input("Age", min_value=18)
+           selected_features_con.append(Age)
+           #
+       if 'Tenure' in st.session_state.selected_features_pred:
+           Tenure = st.number_input("Tenure", min_value=2)
+           selected_features_con.append(Tenure)
+           #
+       if 'Balance' in st.session_state.selected_features_pred:
+           Balance = st.number_input("Balance", min_value=500)
+           selected_features_con.append(Balance)
+           #
+       if 'NumOfProducts' in st.session_state.selected_features_pred :
+           NumOfProducts = st.number_input("NumOfProducts", min_value=1)
+           user_inputs.append(NumOfProducts)
+           #
+       if 'HasCrCard' in st.session_state.selected_features_pred:
+           HasCrCard = st.selectbox("HasCrCard", options=[0, 1])
+           user_inputs.append(HasCrCard)
+           #
+       if 'IsActiveMember' in st.session_state.selected_features_pred:
+           IsActiveMember = st.selectbox("IsActiveMember", options=[0, 1])
+           user_inputs.append(IsActiveMember)
+           #
+       if 'EstimatedSalary' in st.session_state.selected_features_pred:
+           EstimatedSalary = st.number_input("EstimatedSalary", min_value=1000)
+           selected_features_con.append(float(EstimatedSalary))
+       
+   
+       clmn_std = np.array(selected_features_con).reshape(-1, len(selected_features_con))
+       clmn_not_std = np.array(user_inputs).reshape(-1, len(user_inputs))
+       
+       feat_std = st.session_state.scaler_st.transform(clmn_std)
+       to_pred = np.concatenate((feat_std, clmn_not_std), axis=1)
+   
+       if st.button("Predict", type="primary"):
+           y_pred = int(st.session_state.rnd.predict_proba(to_pred)[0][0]*100)   
+           st.write(f"The likelihood of churn for this customer is predicted as **{y_pred}**%")
+   
+         
