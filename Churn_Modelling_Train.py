@@ -435,7 +435,7 @@ if churn_file is not None:
        if st.button("Predict", type="primary"):
            y_pred = int(st.session_state.rnd.predict_proba(to_pred)[0][0]*100)   
            st.markdown(f"""<p style='font-size:24px;'>The likelihood of churn for this customer 
-            is predicted as <strong>{int(y_pred*100)}%</strong></p>""", unsafe_allow_html=True)
+            is predicted as <strong>{int(y_pred)}%</strong></p>""", unsafe_allow_html=True)
 
    
          
