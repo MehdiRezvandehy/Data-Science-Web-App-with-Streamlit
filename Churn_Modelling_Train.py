@@ -83,7 +83,9 @@ st.markdown(
     * Train a reliable Random Forest model by tuning hyperparameters
     * Analyze feature importance using SHAP and Random Forest methods
 
-
+    Python functions and data files needed to run this notebook are available via this [link](https://github.com/MehdiRezvandehy/Customer_Chrun_Prediction.git).
+    
+    
     Here is the data:
     """
 )
