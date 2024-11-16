@@ -70,6 +70,17 @@ st.markdown(
 st.write("""""")
 session_state = True
 
+# Table of contents
+st.sidebar.title("Table of Contents")
+st.sidebar.markdown("[**Profiling**](#profiling)")
+st.sidebar.markdown("[**Split Data to Training and Test**](#split-data-to-training-and-test)")
+st.sidebar.markdown("[**Select Input**](#select-input)")
+st.sidebar.markdown("[**RandomForest Hyperparameters**](#randomforest-hyperparameters)")
+st.sidebar.markdown("[**Train Random Forest**](#train-random-forest)")
+st.sidebar.markdown("[**Shapely Feature Importance**](#shapely-feature-importance)")
+st.sidebar.markdown("[**Random Forest Feature Importance**](#random-forest-feature-importance)")
+st.sidebar.markdown("[**Prediction**](#prediction)")
+
 st.markdown(
     """
     This app, built with [Streamlit](https://streamlit.io/), trains a Random Forest classifier to predict the probability 
@@ -107,13 +118,19 @@ st.markdown(""" """)
 #
 #else:
 
+
+# Initialize session state variables
+if 'selected_features_pred' not in st.session_state:
+    st.session_state.selected_features_pred = False
+
+
 churn_file = 'Churn_Modelling.csv'
 if churn_file is not None:
     df = pd.read_csv(churn_file)
     # Shuffle the data
     np.random.seed(42) 
-    df
-    if st.button("profiling", type="primary"):
+    st.subheader("Profiling")
+    if st.button("click to run profiling", key="Run_1"):
         profile = ProfileReport(df, title='Pandas Profiling Report')
         st_profile_report(profile)
     
@@ -148,7 +165,7 @@ if churn_file is not None:
     min_samples_split = st.number_input("min_samples_split", min_value=5, max_value=30)
     bootstrap = st.selectbox("bootstrap", options=[True, False])
     random_state = st.number_input("random_state", min_value=1, value=32)
- 
+
     # Random Forest for taining set
     if st.button("Train Random Forest", type="primary"):
         # Text Handeling
@@ -366,8 +383,7 @@ if churn_file is not None:
         st.pyplot(fig)
 
     st.header("Prediction")
-    
-    if st.session_state:
+    if st.session_state.selected_features_pred:
        user_inputs = []
        selected_features_con = []
        st.subheader("Input Data")
