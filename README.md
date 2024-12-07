@@ -7,6 +7,3 @@ In this notebook, we’ll start with an introduction to Streamlit, covering data
 - This app uses a pre-trained model to predict the likelihood of customer churn: [Customer Churn Prediction App](https://customerchrunprediction-59.streamlit.app/)
 
 - This app provides a complete walkthrough for training a machine learning model for customer churn prediction: [End-to-End Churn Model Training App](https://app-train-churnmodeling.streamlit.app/)
-
-
-Python code and data files needed to run this notebook are available via this [link](https://github.com/MehdiRezvandehy/streamlit).
